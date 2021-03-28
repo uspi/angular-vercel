@@ -1,0 +1,10 @@
+[{
+    "customerName": "Bob",
+    "coffee": "Espresso"
+},{
+    "customerName": "Tom",
+    "coffee": "Americano"
+},{
+    "customerName": "Alice",
+    "coffee": "Latte"
+}]
