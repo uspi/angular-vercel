@@ -38,7 +38,7 @@ export class DataService {
             )
         
         // log
-        mapedDataFromServer.subscribe(d => console.log("data service", d));
+        //mapedDataFromServer.subscribe(d => console.log("data service", d));
 
         return mapedDataFromServer;
     };

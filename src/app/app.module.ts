@@ -6,17 +6,25 @@ import { RouterModule, Routes } from '@angular/router';
 import { DataListComponent } from './data-list/data-list.component';
 import { DataModule } from './data/data.module';
 import { OrderForm } from './order-form/order-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { OrderDoneComponent } from './order-done/order-done.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { TopBarComponent } from './top-bar/top-bar.component';
 
 const appRoutes: Routes = [
+  { path: "new-order", component: OrderForm },
   { path: "data-list", component: DataListComponent },
-  { path: "", component: OrderForm },
+  { path: "order-done", component: OrderDoneComponent },
+  { path: "", redirectTo: "new-order", pathMatch: "full" },
+  { path: "**", component: PageNotFoundComponent },
 ];
 
 @NgModule({
-  declarations: [AppComponent ],
+  declarations: [AppComponent, OrderDoneComponent, PageNotFoundComponent, TopBarComponent ],
   imports: [ 
     DataModule,
     BrowserModule, 
+    ReactiveFormsModule,
     RouterModule.forRoot(appRoutes)
   ],
   //providers: [HttpService],

@@ -1,7 +1,9 @@
-<h1>Data List Component</h1>
-<ul>
-    <li *ngFor="let order of orders | async">
-    <p>Name Of User: {{order?.customerName}}</p>
-    <p>Coffee Type: {{order?.coffeeType}}</p>
-    </li>
-</ul>
+<div class="d-flex justify-content-center">
+    <ul class="text-center col-md-6">
+        <h1>Data List Component</h1>
+        <li *ngFor="let order of orders | async" class="list-group-item">
+            <p>Name Of User: {{order?.customerName}}</p>
+            <p>Coffee Type: {{order?.coffeeType}}</p>
+        </li>
+    </ul>
+</div>

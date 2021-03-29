@@ -1,4 +1,6 @@
+import { stringify } from '@angular/compiler/src/util';
 import { Component } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { DataService, Order } from '../data/data.service';
 
 @Component({
@@ -7,11 +9,25 @@ import { DataService, Order } from '../data/data.service';
 })
 
 export class OrderForm { 
-    order: Order;
+  a: any;
+  newOrder: Order;
 
-    constructor(private dataService: DataService) { }
+  orderForm: FormGroup = new FormGroup({
+    "coffeeType": new FormControl(""),
+    "volume": new FormControl("")
+  });
 
-    submit(){
-        this.dataService
-    }
+  constructor(private dataService: DataService) { }
+
+  onSubmit() {
+    // TODO: Use EventEmitter with form value
+    console.warn(this.orderForm.value);
+  }
+
+  customOrder(){
+    this.orderForm.patchValue({
+      coffeeType: "Americano",
+      volume: 2
+    })
+  }
 }
