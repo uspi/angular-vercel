@@ -1,22 +1,120 @@
-<div class="d-flex justify-content-center">
-    <ul class="text-center col-md-6">
-        <h1>Order Form Component</h1>
+<div class="d-flex justify-content-center my-4">
+  <div class=" col-md-6">
+    <div class="card">
+
+      <div class="card-header">
+        <h3>Order Form Component</h3>
+      </div>
+
+      <div class="card-body">
 
         <form [formGroup]="orderForm" (ngSubmit)="onSubmit()" >
 
+          <!-- type -->
+          <div class="form-group">
 
-            <div class="form-group">
-                <input type="text" class="form-control" formControlName="coffeeType" placeholder="Coffee Type"/>
+            <label>Type</label>
+            <select formControlName="coffeeType" class="form-control">
+              <option selected hidden>Please Select</option>
+              <option *ngFor="let t of coffeeTypes">{{t}}</option>
+            </select>
+
+            <!-- errors.required | if empty field -->
+            <div class="alert alert-danger"
+              *ngIf="type.errors?.required
+                 && (type.touched || isSubmitted)">
+              Required Field
             </div>
-    
-            <div class="form-group">
-                <input type="number" class="form-control" formControlName="volume" placeholder="Coffee Volume"/>
+          </div>
+
+
+          <!-- volume -->
+          <div class="form-group">
+
+            <label>Volume</label>
+            <select formControlName="coffeeVolume" class="form-control">
+              <option selected hidden>Please Select</option>
+              <option *ngFor="let t of coffeeVolumesMililiters">
+                {{t | number:'4.'}}
+              </option>
+            </select>
+
+            <!-- errors.wrong-combination | value and type wrong combination -->
+            <div class="alert alert-danger"
+              *ngIf="orderForm.errors?.wrongVolumeTypeCombination
+                 && (orderForm.touched || orderForm.dirty)">
+              Incorrect combination "{{orderForm.errors?.combFirst }}" type
+              with "{{orderForm.errors?.combSecond}}" volume
             </div>
-            
-            <div>
-                <input type="submit" value="Send" [disabled]="!orderForm.valid" class="btn btn-primary btn-lg px-5"  />
-            </div>  
+
+            <!-- errors.required | if empty field -->
+            <div class="alert alert-danger"
+              *ngIf="volume.errors?.required
+                 && (volume.touched || isSubmitted)">
+              Required Field
+            </div>
+
+          </div>
+
+          <!-- sugar -->
+          <div class="form-group">
+            <label>Sugar</label>
+            <input type="number"
+              class="form-control"
+              formControlName="sugarTeaspoons"
+              placeholder="Teaspoons"/>
+          </div>
+
+
+          <!-- check boxes -->
+          <div class="text-left px-3">
+
+          <!-- milk -->
+            <div class="form-check form-group">
+              <input type="checkbox"
+                class="form-check-input"
+                formControlName="hasMilk"
+                placeholder="Coffee Volume"/>
+              <label class="form-check-label">Milk</label>
+            </div>
+
+            <!-- cap -->
+            <div class="form-check form-group">
+              <input type="checkbox"
+                class="form-check-input"
+                formControlName="hasCupCap"
+                placeholder="Coffee Volume"/>
+              <label class="form-check-label">Cup Cap</label>
+            </div>
+
+          </div>
+
+          <!-- send button -->
+          <div>
+            <input type="submit"
+              value="Send"
+              class="btn btn-success px-4 my-2"/>
+              <!-- [disabled]="!orderForm.valid" -->
+          </div>
+
         </form>
-    </ul>
+
+          <!-- <button class="btn dropdown-toggle"
+              type="button"
+              data-toggle="dropdown"
+              value="fff"
+              name="333343"
+              formControlName="coffeeType"
+              >{{type.value}}</button>
+
+          <div class="dropdown-menu">
+            <div type="button" class="btn dropdown-item">Another eeeaction</div>
+            <div type="button" class="btn dropdown-item">Another action</div>
+            <div type="button" class="btn dropdown-item">Anothereg action</div>
+          </div> -->
+
+        </div>
+      </div>
+    </div>
 </div>
-    
+

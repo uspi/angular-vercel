@@ -1,10 +1,19 @@
 [{
-    "customerName": "Bob",
-    "coffee": "Espresso"
+    "coffeeType": "Americano",
+    "coffeeVolume": "500",
+    "sugarTeaspoons": 1,
+    "hasMilk": false,
+    "hasCupCap": false
 },{
-    "customerName": "Tom",
-    "coffee": "Americano"
+    "coffeeType": "Latte",
+    "coffeeVolume": "200",
+    "sugarTeaspoons": 1,
+    "hasMilk": false,
+    "hasCupCap": true
 },{
-    "customerName": "Alice",
-    "coffee": "Latte"
+    "coffeeType": "Espresso",
+    "coffeeVolume": "133",
+    "sugarTeaspoons": 1,
+    "hasMilk": true,
+    "hasCupCap": false
 }]

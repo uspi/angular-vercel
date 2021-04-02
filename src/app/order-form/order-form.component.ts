@@ -1,33 +1,137 @@
-import { stringify } from '@angular/compiler/src/util';
-import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { DataService, Order } from '../data/data.service';
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { DataService } from '../data/data.service';
+import { Order } from '../order';
 
 @Component({
   selector: 'order-form',
   templateUrl: './order-form.component.html',
 })
 
-export class OrderForm { 
-  a: any;
-  newOrder: Order;
+export class OrderForm implements OnInit {
 
-  orderForm: FormGroup = new FormGroup({
-    "coffeeType": new FormControl(""),
-    "volume": new FormControl("")
-  });
+  // if the user clicks on the submit button, true
+  isSubmitted = false;
 
-  constructor(private dataService: DataService) { }
+  // reactive order form
+  orderForm: FormGroup;
+
+  coffeeTypes: string[] = ["Americano", "Latte", "Espresso"];
+  coffeeVolumesMililiters: number[] = [133, 255, 500];
+
+  //#region Accessors
+  get volume(): AbstractControl {return this.orderForm.get("coffeeVolume")}
+  get type(): AbstractControl {return this.orderForm.get("coffeeType")}
+  get sugar(): AbstractControl {return this.orderForm.get("sugarTeaspoons")}
+  get milk(): AbstractControl {return this.orderForm.get("hasMilk")}
+  get cupCap(): AbstractControl {return this.orderForm.get("hasCupCap")}
+  //#endregion
+
+  constructor(
+    private dataService: DataService,
+    private router: Router,
+    private fb: FormBuilder) { }
+
+  ngOnInit(): void {
+
+    // build order form
+    this.orderForm = this.fb.group({
+      coffeeVolume: ["",Validators.required],
+      coffeeType: ["", Validators.required],
+      sugarTeaspoons: [0, Validators.required],
+      hasMilk: false,
+      hasCupCap: false
+    },{
+      validators: [volumeCorrectValidator]
+    });
+  }
 
   onSubmit() {
-    // TODO: Use EventEmitter with form value
-    console.warn(this.orderForm.value);
+    // user pressed on submit button
+    this.isSubmitted = true;
+
+    // if not valid
+    if (!this.orderForm.valid) {
+      return;
+    }
+
+    const formValue = this.orderForm.value;
+
+    let newOrder: Order = {
+      coffeeVolume: formValue.coffeeVolume,
+      coffeeType: formValue.coffeeType,
+      sugarTeaspoons: formValue.sugarTeaspoons,
+      hasMilk: formValue.hasMilk,
+      hasCupCap: formValue.hasCupCap
+    };
+
+    this.dataService.addOrder(newOrder);
+
+    console.log("ORDER ADDED | on submit method");
+    //this.router.navigate(["order-done"]);
   }
 
-  customOrder(){
-    this.orderForm.patchValue({
-      coffeeType: "Americano",
-      volume: 2
-    })
-  }
+  // coffeeVolumeValidator(control: FormControl): {[s: string]: boolean} {
+
+  //   if (control.value == 500) {
+  //     return {"coffeeVolume": true};
+  //   }
+
+  //   return null;
+  // }
 }
+
+export const volumeCorrectValidator: ValidatorFn =
+  (control: AbstractControl): ValidationErrors | null => {
+
+    const type: string = control.get("coffeeType").value;
+    const volume: string = control.get("coffeeVolume").value;
+
+    // 500 mililiters only americano
+    if(type != "Americano"
+    && type != ""
+    && volume === "0,500"){
+
+      console.log("wrong combination")
+
+      return {
+        wrongVolumeTypeCombination: true,
+        combFirst: type,
+        combSecond: volume
+      }
+    }
+
+    console.log("all ok")
+    // if ok
+    return null;
+  }
+
+// export function typeValidator(): ValidatorFn {
+//   return (control: AbstractControl): ValidationErrors | null => {
+
+//     const type: string = control.get("coffeeType").value;
+//     //const volume: number = control.get("coffeeVolume").value;
+
+//     if (type == "") {
+//       return {
+
+//       }
+//     }
+
+//     // 500 mililiters only americano
+//     if(type != "Americano"
+//     && type != ""
+//     && volume === 500){
+//       return {
+//           wrongVolumeTypeCombination: true,
+//           combFirst: type,
+//           combSecond: 500
+//         }
+//     }
+
+//     // if ok
+//     return null;
+//   }
+// };
+

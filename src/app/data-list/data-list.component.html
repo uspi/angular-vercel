@@ -1,9 +1,81 @@
+<style>
+.borderless td, .borderless th {
+    border: none;
+}
+</style>
+
 <div class="d-flex justify-content-center">
-    <ul class="text-center col-md-6">
+    
+    <div class="text-center col-md-6">
         <h1>Data List Component</h1>
-        <li *ngFor="let order of orders | async" class="list-group-item">
-            <p>Name Of User: {{order?.customerName}}</p>
-            <p>Coffee Type: {{order?.coffeeType}}</p>
-        </li>
-    </ul>
+        
+        <div *ngFor="let order of orders | async">
+
+            <div class="my-4 card border-dark">
+                <p class="mt-2">ORDER </p>
+                <table class="table borderless">
+
+                    <!-- column size -->
+                    <col style="width: 50%;">
+                    <col style="width: 50%;">
+
+                    <tbody>
+                        <tr>
+                            <!-- type -->
+                            <th scope="col">Type</th>
+                            <td>{{order?.coffeeType}}</td>
+                        </tr>
+
+                        <tr>
+                            <!-- volume -->
+                            <th scope="col">Volume (liters)</th>
+                            <td>{{order?.coffeeVolume | number:'4.'}}</td>
+                        </tr>
+                            
+
+                        <tr>
+                            <!-- sugar -->
+                            <th scope="col">Sugar</th>
+                            <td>{{order?.sugarTeaspoons}}</td>
+                        </tr>
+                            
+    
+                        <tr>
+                            <!-- milk -->
+                            <th scope="col">Milk</th>
+                            <td>{{order?.hasMilk ? "Has" : "Not "}}</td>
+                        </tr>
+                            
+    
+                        <tr>
+                            <!-- cap -->
+                            <th scope="col">Cap</th>
+                            <td>{{order?.hasCupCap ? "Has" : "Not"}}</td>
+                        </tr>
+                            
+                    </tbody>
+                </table>
+                
+                <!-- <p>Coffee Type: {{order?.coffeeType}}</p>
+                
+                
+                <p>Coffee Volume (liters): {{order?.coffeeVolume | number:'4.'}}</p>
+                
+                
+                <p>Sugar Teaspoons: {{order?.sugarTeaspoons}}</p>
+                
+                
+                <p>Milk: {{order?.hasMilk ? "Has" : "Not "}}</p> -->
+    
+                
+                
+    
+                <!-- <div *ngIf="order?.hasMilk; then hasMilk; else notHasMilk">
+                    <ng-template #hasMilk>Has</ng-template>
+                    <ng-template #notHasMilk>Not</ng-template>
+                </div> -->
+            </div>
+            
+        </div>
+    </div>
 </div>
