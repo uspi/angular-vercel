@@ -2,13 +2,13 @@ import { Injectable } from "@angular/core";
 import { from, Observable, of } from "rxjs";
 import { map, scan } from "rxjs/operators";
 import { HttpService } from "../http/http.service";
-import { Order } from "../order";
+import { Order } from "../order.model";
 
 @Injectable({providedIn: "root"})
 export class DataService {
 
     //private data: string[] = [ "Latte", "Americano", "Espresso"];
-    
+
     private data: Observable<Order[]>;
     private fakeData: Order[]=[];
 
@@ -23,7 +23,7 @@ export class DataService {
         this.data = this.getOrders();
     }
 
-    // get data from current service 
+    // get data from current service
     getLastSyncOrders(): Observable<Order[]>{
         let aa = of(this.fakeData);
 
@@ -44,7 +44,7 @@ export class DataService {
 
         let dataFromServer = this.httpService.getData();
 
-        let mapedDataFromServer = 
+        let mapedDataFromServer =
             // map array
             dataFromServer.pipe(map<any, Order[]>(res =>
 
@@ -62,9 +62,9 @@ export class DataService {
                     return order;
                 })
             ));
-        
+
         // log
-        mapedDataFromServer.subscribe(d => { 
+        mapedDataFromServer.subscribe(d => {
             console.log("data service", d);
             this.fakeData = d;
         });
@@ -85,7 +85,7 @@ export class DataService {
         // }));
 
         // this.data.subscribe(v => console.log(v));
-        
+
     }
 
     // addData(customer: string, coffee: string){

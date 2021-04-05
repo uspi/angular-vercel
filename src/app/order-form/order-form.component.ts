@@ -1,15 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { DataService } from '../data/data.service';
-import { Order } from '../order';
+import { DateService } from '../shared/date.service';
+import { Message, Order, OrdersService } from '../shared/orders.service';
+//import { Order } from '../order.model';
 
 @Component({
   selector: 'order-form',
   templateUrl: './order-form.component.html',
 })
 
-export class OrderForm implements OnInit {
+export class OrderFormComponent implements OnInit {
+
+  allMessages: Observable<Message>;
 
   // if the user clicks on the submit button, true
   isSubmitted = false;
@@ -31,7 +36,9 @@ export class OrderForm implements OnInit {
   constructor(
     private dataService: DataService,
     private router: Router,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    private dateService: DateService,
+    private ordersService: OrdersService) { }
 
   ngOnInit(): void {
 
@@ -45,6 +52,10 @@ export class OrderForm implements OnInit {
     },{
       validators: [volumeCorrectValidator]
     });
+
+    console.log("ORDER FORM COMPONENT ngOnInit | ", this.dateService.date.value)
+
+    this.allMessages = this.ordersService.getRealTimeMessages();
   }
 
   onSubmit() {
@@ -58,19 +69,48 @@ export class OrderForm implements OnInit {
 
     const formValue = this.orderForm.value;
 
-    let newOrder: Order = {
+    // add logic
+    const order: Order = {
+      date: this.dateService.date.value.unix().toString(),
       coffeeVolume: formValue.coffeeVolume,
       coffeeType: formValue.coffeeType,
       sugarTeaspoons: formValue.sugarTeaspoons,
       hasMilk: formValue.hasMilk,
       hasCupCap: formValue.hasCupCap
-    };
+    }
 
-    this.dataService.addOrder(newOrder);
+    // add order
+    this.ordersService.create(order).subscribe(
+      (next) => {
+        this.orderForm.reset()
+      },
+      (error) => {
+        console.error(error)
+      },
+      () => {
+        console.log("ORDER ADDED | on submit method");
+      }
+    );
 
-    console.log("ORDER ADDED | on submit method");
+    // let newOrder: Order = {
+    //   coffeeVolume: formValue.coffeeVolume,
+    //   coffeeType: formValue.coffeeType,
+    //   sugarTeaspoons: formValue.sugarTeaspoons,
+    //   hasMilk: formValue.hasMilk,
+    //   hasCupCap: formValue.hasCupCap
+    // };
+
+    // this.dataService.addOrder(newOrder);
+
+
+
     //this.router.navigate(["order-done"]);
   }
+
+  sendMessage(message: string){
+    this.ordersService.sendMessage(message);
+  }
+
 
   // coffeeVolumeValidator(control: FormControl): {[s: string]: boolean} {
 

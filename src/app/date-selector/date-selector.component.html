@@ -1,0 +1,31 @@
+
+
+  <div class="">
+    <div class="text-center row justify-content-md-center">
+      <!-- left arrow -->
+      <div class="col d-flex justify-content-end">
+        <button type="button" class="btn btn-light p-0" >
+          <span class="material-icons align-middle text-center" (click)="go(-1)">
+            chevron_left
+          </span>
+        </button>
+      </div>
+
+
+      <span class="col-md-2 text-middle">
+        {{ dateService.date | async | moment}}
+      </span>
+
+      <!-- right arrow -->
+      <div class="col d-flex justify-content-start">
+        <button type="button" class="btn btn-light p-0" >
+          <span class="material-icons align-middle text-center" (click)="go(1)">
+            chevron_right
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+

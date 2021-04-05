@@ -2,42 +2,41 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { RouterModule, Routes } from '@angular/router';
-import { DataListComponent } from './data-list/data-list.component';
 import { DataModule } from './data/data.module';
-import { OrderForm } from './order-form/order-form.component';
+import { OrderFormComponent } from './order-form/order-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OrderDoneComponent } from './order-done/order-done.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
-import { MomentPipe } from './shared/moment.pipe';
+import { AppRoutingModule } from './app-routing.module';
+import { UtilsModule } from './utils/utils.module';
+import { HttpClientModule } from '@angular/common/http';
+import { AngularFireModule } from '@angular/fire';
+import { environment } from 'src/environments/environment';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
 
-const appRoutes: Routes = [
-  { path: "new-order", component: OrderForm },
-  { path: "data-list", component: DataListComponent },
-  { path: "order-done", component: OrderDoneComponent },
-  { path: "", redirectTo: "new-order", pathMatch: "full" },
-  { path: "**", component: PageNotFoundComponent },
-];
 
 @NgModule({
   declarations: [
-    AppComponent, 
-    OrderDoneComponent, 
-    PageNotFoundComponent, 
-    TopBarComponent, 
-    OrderForm,
-    
+    AppComponent,
+    OrderDoneComponent,
+    PageNotFoundComponent,
+    TopBarComponent,
+    OrderFormComponent
   ],
-  imports: [ 
+  imports: [
     DataModule,
-    BrowserModule, 
+    BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(appRoutes)
+    AppRoutingModule,
+    UtilsModule,
+    HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireDatabaseModule,
+
   ],
-  //providers: [HttpService],
   bootstrap: [AppComponent],
 })
 
-export class AppModule {}
+export class AppModule { }

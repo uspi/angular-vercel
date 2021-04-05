@@ -1,81 +1,46 @@
 <style>
-.borderless td, .borderless th {
+  .borderless td,
+  .borderless th {
     border: none;
-}
+  }
 </style>
 
-<div class="d-flex justify-content-center">
-    
-    <div class="text-center col-md-6">
-        <h1>Data List Component</h1>
-        
-        <div *ngFor="let order of orders | async">
+<div class="container">
+  <h3 class="card-title my-4 text-center">Order List</h3>
+  <app-date-selector></app-date-selector>
 
-            <div class="my-4 card border-dark">
-                <p class="mt-2">ORDER </p>
-                <table class="table borderless">
-
-                    <!-- column size -->
-                    <col style="width: 50%;">
-                    <col style="width: 50%;">
-
-                    <tbody>
-                        <tr>
-                            <!-- type -->
-                            <th scope="col">Type</th>
-                            <td>{{order?.coffeeType}}</td>
-                        </tr>
-
-                        <tr>
-                            <!-- volume -->
-                            <th scope="col">Volume (liters)</th>
-                            <td>{{order?.coffeeVolume | number:'4.'}}</td>
-                        </tr>
-                            
-
-                        <tr>
-                            <!-- sugar -->
-                            <th scope="col">Sugar</th>
-                            <td>{{order?.sugarTeaspoons}}</td>
-                        </tr>
-                            
-    
-                        <tr>
-                            <!-- milk -->
-                            <th scope="col">Milk</th>
-                            <td>{{order?.hasMilk ? "Has" : "Not "}}</td>
-                        </tr>
-                            
-    
-                        <tr>
-                            <!-- cap -->
-                            <th scope="col">Cap</th>
-                            <td>{{order?.hasCupCap ? "Has" : "Not"}}</td>
-                        </tr>
-                            
-                    </tbody>
-                </table>
-                
-                <!-- <p>Coffee Type: {{order?.coffeeType}}</p>
-                
-                
-                <p>Coffee Volume (liters): {{order?.coffeeVolume | number:'4.'}}</p>
-                
-                
-                <p>Sugar Teaspoons: {{order?.sugarTeaspoons}}</p>
-                
-                
-                <p>Milk: {{order?.hasMilk ? "Has" : "Not "}}</p> -->
-    
-                
-                
-    
-                <!-- <div *ngIf="order?.hasMilk; then hasMilk; else notHasMilk">
-                    <ng-template #hasMilk>Has</ng-template>
-                    <ng-template #notHasMilk>Not</ng-template>
-                </div> -->
-            </div>
-            
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 mx-auto">
+        <div class="card mt-2" *ngFor="let order of orders | async; let i = index">
+          <div class="card-body">
+            <h5 class="card-title">
+              <span class="badge badge-secondary">#{{i}}</span>
+            </h5>
+            <table class="card-table table">
+              <thead>
+                <tr>
+                  <th class="text-center align-top">Type</th>
+                  <th class="text-center align-top">Volume (liters)</th>
+                  <th class="text-center align-top">Sugar</th>
+                  <th class="text-center align-top">Milk</th>
+                  <th class="text-center align-top">Cup Cap</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-center align-middle">{{ order?.coffeeType }}</td>
+                  <td class="text-center align-middle">{{ order?.coffeeVolume | number: "4." }}</td>
+                  <td class="text-center align-middle">{{ order?.sugarTeaspoons | number }}</td>
+                  <td class="text-center align-middle">{{ order?.hasMilk ? "Has" : "Not" }}</td>
+                  <td class="text-center align-middle">{{ order?.hasCupCap ? "Has" : "Not"}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
+        <!-- end of card body -->
+      </div>
     </div>
+  </div>
 </div>

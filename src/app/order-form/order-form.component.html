@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-center my-4">
-  <div class=" col-md-6">
+  <div class="col-md-6">
     <div class="card">
 
       <div class="card-header">
@@ -113,8 +113,26 @@
             <div type="button" class="btn dropdown-item">Anothereg action</div>
           </div> -->
 
-        </div>
       </div>
     </div>
+    <div>
+      <h3>Realtime Chat App</h3>
+      <ul class="list-group" *ngFor="let message of allMessages | async; let i = index" >
+        <li class="list-group-item">
+          <p>{{message.message}}</p>
+          <p>
+            {{message.date}}
+            {{message.time}}
+          </p>
+        </li>
+      </ul>
+      <div>
+        <button class="btn btn-light" (click)="sendMessage(newMessage.value)">
+          Send
+        </button>
+        <input class="form-control" #newMessage type="text">
+      </div>
+    </div>
+  </div>
 </div>
 
