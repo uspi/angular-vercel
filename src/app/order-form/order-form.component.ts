@@ -42,6 +42,10 @@ export class OrderFormComponent implements OnInit {
 
   ngOnInit(): void {
 
+    // go to new order
+    this.router.navigate([`/edit/${this.ordersService.getNewUid()}`]);
+
+
     // build order form
     this.orderForm = this.fb.group({
       coffeeVolume: ["",Validators.required],
@@ -58,39 +62,46 @@ export class OrderFormComponent implements OnInit {
     this.allMessages = this.ordersService.getRealTimeMessages();
   }
 
+
+
   onSubmit() {
-    // user pressed on submit button
-    this.isSubmitted = true;
+    // // user pressed on submit button
+    // this.isSubmitted = true;
 
-    // if not valid
-    if (!this.orderForm.valid) {
-      return;
-    }
+    // // if not valid
+    // if (!this.orderForm.valid) {
+    //   return;
+    // }
 
-    const formValue = this.orderForm.value;
+    // const formValue = this.orderForm.value;
 
-    // add logic
-    const order: Order = {
-      date: this.dateService.date.value.unix().toString(),
-      coffeeVolume: formValue.coffeeVolume,
-      coffeeType: formValue.coffeeType,
-      sugarTeaspoons: formValue.sugarTeaspoons,
-      hasMilk: formValue.hasMilk,
-      hasCupCap: formValue.hasCupCap
-    }
+    // // add logic
+    // const order: Order = {
+    //   date: this.dateService.date.value.unix().toString(),
+    //   coffeeVolume: formValue.coffeeVolume,
+    //   coffeeType: formValue.coffeeType,
+    //   sugarTeaspoons: formValue.sugarTeaspoons,
+    //   hasMilk: formValue.hasMilk,
+    //   hasCupCap: formValue.hasCupCap
+    // }
 
-    // add order
-    this.ordersService.create(order).subscribe(
-      (next) => {
-        this.orderForm.reset()
-      },
-      (error) => {
-        console.error(error)
-      },
-      () => {
-        console.log("ORDER ADDED | on submit method");
-      }
-    );
+    // // add order
+    // this.ordersService.create(order).subscribe(
+    //   (next) => {
+    //     this.orderForm.reset()
+    //   },
+    //   (error) => {
+    //     console.error(error)
+    //   },
+    //   () => {
+    //     console.log("ORDER ADDED | on submit method");
+    //   }
+    // );
+
+
+
+
+
 
     // let newOrder: Order = {
     //   coffeeVolume: formValue.coffeeVolume,

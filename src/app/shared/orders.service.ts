@@ -2,16 +2,18 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { filter, map, tap } from "rxjs/operators";
 import { AngularFireDatabase } from "@angular/fire/database"
+import { AngularFirestore, AngularFirestoreModule } from "@angular/fire/firestore"
 import { Observable } from "rxjs";
 
 export interface Order {
-  id?: string;
-  date?: string;
+  uid?: string;
   coffeeType: string;
   coffeeVolume: number;
   sugarTeaspoons: number;
   hasMilk: boolean;
   hasCupCap: boolean;
+  createdOn: any;
+  updatedOn: any;
 }
 
 interface CreateResponse{
@@ -28,17 +30,38 @@ export interface Message {
 export class OrdersService {
   static url = "https://coffee-shop-749a4-default-rtdb.europe-west1.firebasedatabase.app/";
 
-  constructor(private http: HttpClient, private realtimeDb: AngularFireDatabase) { }
+  constructor(private realtimeDb: AngularFireDatabase, private database: AngularFirestore) { }
 
-  create(order: Order){
+  // create(order: Order){
 
-    //this.http.setServerTrustMode()
-    return this.http
-      .post<CreateResponse>(`${OrdersService.url}/`, order, {})
-      .pipe(map(res => {
-        console.log("response", res);
-        return res;
-      }))
+  //   //this.http.setServerTrustMode()
+  //   return this.http
+  //     .post<CreateResponse>(`${OrdersService.url}/`, order, {})
+  //     .pipe(map(res => {
+  //       console.log("response", res);
+  //       return res;
+  //     }))
+  // }
+
+
+  getOrders(): Observable<Order[]> {
+    return this.database.collection<Order>("orders").valueChanges()
+  }
+
+  getOrder = (uid: string): Observable<Order> => {
+    return this.database.doc<Order>(`orders/${uid}`).valueChanges();
+  }
+
+  updateOrder(order: Order){
+    return this.database.doc<Order>(`orders/${order.uid}`).set(order, {merge: true});
+  }
+
+  deleteOrder(order: Order){
+    return this.database.doc<Order>(`orders/${order.uid}`).delete();
+  }
+
+  getNewUid(): string{
+    return this.database.createId();
   }
 
   getRealTimeMessages(): Observable<any> {
@@ -49,6 +72,8 @@ export class OrdersService {
       .list<Message>("messages")
       .valueChanges();
   }
+
+  dummyData: Order
 
   sendMessage(message: string){
     // get current timestamp
@@ -77,4 +102,10 @@ export class OrdersService {
     //     "last_updated_at": currTime
     //   });
   }
+
+  sendOrder(order: Order){
+
+  }
+
+
 }

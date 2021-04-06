@@ -6,9 +6,9 @@
         <h3>Order Form Component</h3>
       </div>
 
-      <div class="card-body">
+      <div class="card-body" *ngIf="orderForm | async as form">
 
-        <form [formGroup]="orderForm" (ngSubmit)="onSubmit()" >
+        <form [formGroup]="form" >
 
           <!-- type -->
           <div class="form-group">
@@ -21,8 +21,8 @@
 
             <!-- errors.required | if empty field -->
             <div class="alert alert-danger"
-              *ngIf="type.errors?.required
-                 && (type.touched || isSubmitted)">
+              *ngIf="form.coffeeType.errors?.required
+                 && (form.coffeeType.touched || isSubmitted)">
               Required Field
             </div>
           </div>
@@ -35,22 +35,22 @@
             <select formControlName="coffeeVolume" class="form-control">
               <option selected hidden>Please Select</option>
               <option *ngFor="let t of coffeeVolumesMililiters">
-                {{t | number:'4.'}}
+                {{t}}
               </option>
             </select>
 
             <!-- errors.wrong-combination | value and type wrong combination -->
             <div class="alert alert-danger"
-              *ngIf="orderForm.errors?.wrongVolumeTypeCombination
-                 && (orderForm.touched || orderForm.dirty)">
-              Incorrect combination "{{orderForm.errors?.combFirst }}" type
-              with "{{orderForm.errors?.combSecond}}" volume
+              *ngIf="form.errors?.wrongVolumeTypeCombination
+                 && (form.touched || form.dirty)">
+              Incorrect combination "{{form.errors?.combFirst }}" type
+              with "{{form.errors?.combSecond}}" volume
             </div>
 
             <!-- errors.required | if empty field -->
             <div class="alert alert-danger"
-              *ngIf="volume.errors?.required
-                 && (volume.touched || isSubmitted)">
+              *ngIf="form.coffeeVolume.errors?.required
+                 && (form.coffeeVolume.touched || isSubmitted)">
               Required Field
             </div>
 
@@ -93,6 +93,7 @@
           <div>
             <input type="submit"
               value="Send"
+              (click)="onSubmit(form.value)"
               class="btn btn-success px-4 my-2"/>
               <!-- [disabled]="!orderForm.valid" -->
           </div>
@@ -100,41 +101,5 @@
         </form>
       </div>
     </div>
-    <div>
-      <h3>Realtime Chat App</h3>
-      <ul class="list-group" *ngFor="let message of allMessages | async; let i = index" >
-        <li class="list-group-item">
-          <p>{{message.message}}</p>
-          <p>
-            {{message.date}}
-            {{message.time}}
-          </p>
-        </li>
-      </ul>
-      <div>
-        <button class="btn btn-light" (click)="sendMessage(newMessage.value)">
-          Send
-        </button>
-        <input class="form-control" #newMessage type="text">
-      </div>
-    </div>
   </div>
 </div>
-
-
-
-<!-- <button class="btn dropdown-toggle"
-              type="button"
-              data-toggle="dropdown"
-              value="fff"
-              name="333343"
-              formControlName="coffeeType"
-              >{{type.value}}</button>
-
-          <div class="dropdown-menu">
-            <div type="button" class="btn dropdown-item">Another eeeaction</div>
-            <div type="button" class="btn dropdown-item">Another action</div>
-            <div type="button" class="btn dropdown-item">Anothereg action</div>
-          </div> -->
-
-

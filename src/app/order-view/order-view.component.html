@@ -7,15 +7,14 @@
 
 <div class="container">
   <h3 class="card-title my-4 text-center">Order List</h3>
-  <app-date-selector></app-date-selector>
 
   <div class="container">
     <div class="row">
       <div class="col-md-8 mx-auto">
-        <div class="card mt-2" *ngFor="let order of ordersFirebase | async; let i = index">
+        <div class="card mt-2" *ngIf="order | async as orderSync">
           <div class="card-body">
             <h5 class="card-title">
-              <span class="badge badge-secondary">#{{i}}</span>
+              <span class="badge badge-secondary">uid #{{orderSync.uid}}</span>
             </h5>
             <table class="card-table table">
               <thead>
@@ -29,11 +28,11 @@
               </thead>
               <tbody>
                 <tr>
-                  <td class="text-center align-middle">{{ order?.coffeeType }}</td>
-                  <td class="text-center align-middle">{{ order?.coffeeVolume | number: "4." }}</td>
-                  <td class="text-center align-middle">{{ order?.sugarTeaspoons | number }}</td>
-                  <td class="text-center align-middle">{{ order?.hasMilk ? "Has" : "Not" }}</td>
-                  <td class="text-center align-middle">{{ order?.hasCupCap ? "Has" : "Not"}}</td>
+                  <td class="text-center align-middle">{{ orderSync.coffeeType }}</td>
+                  <td class="text-center align-middle">{{ orderSync.coffeeVolume | number: "4." }}</td>
+                  <td class="text-center align-middle">{{ orderSync.sugarTeaspoons | number }}</td>
+                  <td class="text-center align-middle">{{ orderSync.hasMilk ? "Has" : "Not" }}</td>
+                  <td class="text-center align-middle">{{ orderSync.hasCupCap ? "Has" : "Not"}}</td>
                 </tr>
               </tbody>
             </table>

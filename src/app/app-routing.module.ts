@@ -2,12 +2,17 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { DataListComponent } from "./data-list/data-list.component";
 import { OrderDoneComponent } from "./order-done/order-done.component";
+import { OrderEditComponent } from "./order-edit/order-edit.component";
 import { OrderFormComponent } from "./order-form/order-form.component";
+import { OrderViewComponent } from "./order-view/order-view.component";
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 
 const appRoutes: Routes = [
   { path: "new-order", component: OrderFormComponent },
   { path: "data-list", component: DataListComponent },
+  { path: "post/:uid", component: OrderViewComponent },
+  { path: "edit", component: OrderEditComponent, pathMatch: "full"},
+  { path: "edit/:uid", component: OrderEditComponent },
   { path: "order-done", component: OrderDoneComponent },
   { path: "", redirectTo: "new-order", pathMatch: "full" },
   { path: "**", component: PageNotFoundComponent },
