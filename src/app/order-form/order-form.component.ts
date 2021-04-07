@@ -34,8 +34,6 @@ export class OrderFormComponent implements OnInit {
   //#endregion
 
   constructor(
-    private dataService: DataService,
-    private router: Router,
     private fb: FormBuilder,
     private dateService: DateService,
     private ordersService: OrdersService) { }
@@ -55,7 +53,7 @@ export class OrderFormComponent implements OnInit {
 
     console.log("ORDER FORM COMPONENT ngOnInit | ", this.dateService.date.value)
 
-    this.allMessages = this.ordersService.getRealTimeMessages();
+    //this.allMessages = this.ordersService.getRealTimeMessages();
   }
 
   onSubmit() {
@@ -71,7 +69,6 @@ export class OrderFormComponent implements OnInit {
 
     // add logic
     const order: Order = {
-      date: this.dateService.date.value.unix().toString(),
       coffeeVolume: formValue.coffeeVolume,
       coffeeType: formValue.coffeeType,
       sugarTeaspoons: formValue.sugarTeaspoons,
@@ -79,18 +76,25 @@ export class OrderFormComponent implements OnInit {
       hasCupCap: formValue.hasCupCap
     }
 
+    this.ordersService.createOrder(order);
+    this.isSubmitted = false;
+
+    this.orderForm.reset()
+
+    console.log("ORDER ADDED | on submit method");
+
     // add order
-    this.ordersService.create(order).subscribe(
-      (next) => {
-        this.orderForm.reset()
-      },
-      (error) => {
-        console.error(error)
-      },
-      () => {
-        console.log("ORDER ADDED | on submit method");
-      }
-    );
+    // this.ordersService.create(order).subscribe(
+    //   (next) => {
+    //     this.orderForm.reset()
+    //   },
+    //   (error) => {
+    //     console.error(error)
+    //   },
+    //   () => {
+    //     console.log("ORDER ADDED | on submit method");
+    //   }
+    // );
 
     // let newOrder: Order = {
     //   coffeeVolume: formValue.coffeeVolume,

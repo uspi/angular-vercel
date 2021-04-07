@@ -1,31 +1,41 @@
 
+    <div class="row justify-content-md-center">
 
-  <div class="">
-    <div class="text-center row justify-content-md-center">
-      <!-- left arrow -->
-      <div class="col d-flex justify-content-end">
+
+      <div class="col col-lg-2 d-flex justify-content-end">
+
+        <!-- reset -->
+        <button type="button" class="btn btn-light p-0 mx-2" >
+          <span class="material-icons align-middle text-center" (click)="refresh()">refresh</span>
+        </button>
+
+        <!-- left arrow -->
         <button type="button" class="btn btn-light p-0" >
           <span class="material-icons align-middle text-center" (click)="go(-1)">
             chevron_left
           </span>
         </button>
+
+      </div>
+
+      <div class="col col-lg-2 text-center">
+        <span class="text-middle">
+          {{ dateService.date | async | moment}}
+        </span>
       </div>
 
 
-      <span class="col-md-2 text-middle">
-        {{ dateService.date | async | moment}}
-      </span>
-
       <!-- right arrow -->
-      <div class="col d-flex justify-content-start">
+      <div class="col col-lg-2 d-flex justify-content-start">
         <button type="button" class="btn btn-light p-0" >
           <span class="material-icons align-middle text-center" (click)="go(1)">
             chevron_right
           </span>
         </button>
       </div>
+
     </div>
-  </div>
+
 
 
 

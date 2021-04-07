@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, Output } from "@angular/core";
 import * as moment from "moment";
 import { BehaviorSubject } from "rxjs";
 
@@ -21,5 +21,9 @@ export class DateService {
       month: date.month()
     })
     this.date.next(value)
+  }
+
+  reset(){
+    this.date = new BehaviorSubject(moment());
   }
 }

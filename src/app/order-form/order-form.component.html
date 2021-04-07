@@ -1,7 +1,6 @@
 <div class="d-flex justify-content-center my-4">
   <div class="col-md-6">
-    <div class="card">
-
+    <div class="card mx-2">
       <div class="card-header">
         <h3>Order Form Component</h3>
       </div>
@@ -115,24 +114,11 @@
 
       </div>
     </div>
-    <div>
-      <h3>Realtime Chat App</h3>
-      <ul class="list-group" *ngFor="let message of allMessages | async; let i = index" >
-        <li class="list-group-item">
-          <p>{{message.message}}</p>
-          <p>
-            {{message.date}}
-            {{message.time}}
-          </p>
-        </li>
-      </ul>
-      <div>
-        <button class="btn btn-light" (click)="sendMessage(newMessage.value)">
-          Send
-        </button>
-        <input class="form-control" #newMessage type="text">
-      </div>
-    </div>
   </div>
+
+
 </div>
+
+  <data-list></data-list>
+
 

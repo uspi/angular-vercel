@@ -4,15 +4,26 @@ import { filter, map, tap } from "rxjs/operators";
 import { AngularFireDatabase } from "@angular/fire/database"
 import { Observable } from "rxjs";
 
+// export interface Order {
+//   id?: string;
+//   date?: string;
+//   coffeeType: string;
+//   coffeeVolume: number;
+//   sugarTeaspoons: number;
+//   hasMilk: boolean;
+//   hasCupCap: boolean;
+// }
 export interface Order {
-  id?: string;
-  date?: string;
+  uid?: string;
   coffeeType: string;
   coffeeVolume: number;
   sugarTeaspoons: number;
   hasMilk: boolean;
   hasCupCap: boolean;
+  createdOn?: any;
+  updatedOn?: any;
 }
+
 
 interface CreateResponse{
   name: string;
@@ -26,22 +37,33 @@ export interface Message {
 
 @Injectable({providedIn: "root"})
 export class OrdersService {
-  static url = "https://coffee-shop-749a4-default-rtdb.europe-west1.firebasedatabase.app/";
 
-  constructor(private http: HttpClient, private realtimeDb: AngularFireDatabase) { }
+  //static url = "https://coffee-shop-749a4-default-rtdb.europe-west1.firebasedatabase.app/";
 
-  create(order: Order){
+  constructor(private realtimeDb: AngularFireDatabase) { }
 
-    //this.http.setServerTrustMode()
-    return this.http
-      .post<CreateResponse>(`${OrdersService.url}/`, order, {})
-      .pipe(map(res => {
-        console.log("response", res);
-        return res;
-      }))
+  getOrders(): Observable<Order[]> {
+    return this.realtimeDb
+    .list<Order>("orders")
+    .valueChanges();
   }
 
-  getRealTimeMessages(): Observable<any> {
+  createOrder(newOrder: Order) {
+    const currTime = Number(new Date());
+    const pushId = this.realtimeDb.createPushId()
+
+    this.realtimeDb
+      .list<Order>("orders")
+      .push({
+        ...newOrder,
+        createdOn: currTime,
+        uid: pushId
+      });
+  }
+
+
+
+  getRealTimeMessages(): Observable<Message[]> {
 
     // return observable that is fired whenever an item
     // in the messages list path in the realtime db changes
@@ -77,4 +99,15 @@ export class OrdersService {
     //     "last_updated_at": currTime
     //   });
   }
+
+  // create(order: Order){
+
+  //   //this.http.setServerTrustMode()
+  //   return this.http
+  //     .post<CreateResponse>(`${OrdersService.url}/`, order, {})
+  //     .pipe(map(res => {
+  //       console.log("response", res);
+  //       return res;
+  //     }))
+  // }
 }
