@@ -8,5 +8,5 @@ export const environment = {
     storageBucket: "coffee-shop-749a4.appspot.com",
     messagingSenderId: "800102335743",
     appId: "1:800102335743:web:0bf7035f1f8b13e64e78ca"
-  }
+  },
 };

@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { DataService } from '../data/data.service';
 import { DateService } from '../shared/date.service';
 import { Message, Order, OrdersService } from '../shared/orders.service';
-//import { Order } from '../order.model';
 
 @Component({
   selector: 'order-form',
@@ -14,6 +11,7 @@ import { Message, Order, OrdersService } from '../shared/orders.service';
 
 export class OrderFormComponent implements OnInit {
 
+  orderAddedBanneer: boolean = false;
   allMessages: Observable<Message>;
 
   // if the user clicks on the submit button, true
@@ -48,7 +46,7 @@ export class OrderFormComponent implements OnInit {
       hasMilk: false,
       hasCupCap: false
     },{
-      validators: [volumeCorrectValidator]
+      validators: [milkValidator, volumeCorrectValidator]
     });
 
     console.log("ORDER FORM COMPONENT ngOnInit | ", this.dateService.date.value)
@@ -81,6 +79,9 @@ export class OrderFormComponent implements OnInit {
 
     this.orderForm.reset()
 
+    this.orderAddedBanneer = true;
+    setInterval(() => this.orderAddedBanneer = false, 2000)
+
     console.log("ORDER ADDED | on submit method");
 
     // add order
@@ -106,27 +107,40 @@ export class OrderFormComponent implements OnInit {
 
     // this.dataService.addOrder(newOrder);
 
-
-
     //this.router.navigate(["order-done"]);
   }
 
   sendMessage(message: string){
     this.ordersService.sendMessage(message);
   }
-
-
-  // coffeeVolumeValidator(control: FormControl): {[s: string]: boolean} {
-
-  //   if (control.value == 500) {
-  //     return {"coffeeVolume": true};
-  //   }
-
-  //   return null;
-  // }
 }
 
-export const volumeCorrectValidator: ValidatorFn =
+export const milkValidator: ValidatorFn =
+  (control: AbstractControl): ValidationErrors | null => {
+
+    const type: string = control.get("coffeeType").value;
+    const hasMilk: boolean = control.get("hasMilk").value;
+
+    // 500 mililiters only americano
+    if(type != "Americano"
+    && type != ""
+    && hasMilk === true){
+
+      console.log("Wrong combination milk and", type)
+
+      return {
+        wrongMilkTypeCombination: true,
+        wrongMilkType: type
+      }
+    }
+
+    console.log("Milk and coffee type: Ok")
+
+    // if ok
+    return null;
+  }
+
+  export const volumeCorrectValidator: ValidatorFn =
   (control: AbstractControl): ValidationErrors | null => {
 
     const type: string = control.get("coffeeType").value;
@@ -150,32 +164,3 @@ export const volumeCorrectValidator: ValidatorFn =
     // if ok
     return null;
   }
-
-// export function typeValidator(): ValidatorFn {
-//   return (control: AbstractControl): ValidationErrors | null => {
-
-//     const type: string = control.get("coffeeType").value;
-//     //const volume: number = control.get("coffeeVolume").value;
-
-//     if (type == "") {
-//       return {
-
-//       }
-//     }
-
-//     // 500 mililiters only americano
-//     if(type != "Americano"
-//     && type != ""
-//     && volume === 500){
-//       return {
-//           wrongVolumeTypeCombination: true,
-//           combFirst: type,
-//           combSecond: 500
-//         }
-//     }
-
-//     // if ok
-//     return null;
-//   }
-// };
-

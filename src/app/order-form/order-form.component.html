@@ -1,9 +1,13 @@
 <div class="d-flex justify-content-center my-4">
   <div class="col-md-6">
+    <div class="alert alert-success mx-2" role="alert" *ngIf="orderAddedBanneer">
+      Your order has been successfully added!
+    </div>
     <div class="card mx-2">
       <div class="card-header">
         <h3>Order Form Component</h3>
       </div>
+
 
       <div class="card-body">
 
@@ -68,23 +72,34 @@
           <!-- check boxes -->
           <div class="text-left px-3">
 
-          <!-- milk -->
-            <div class="form-check form-group">
-              <input type="checkbox"
-                class="form-check-input"
-                formControlName="hasMilk"
-                placeholder="Coffee Volume"/>
-              <label class="form-check-label">Milk</label>
+            <!-- milk -->
+            <div class="form-group">
+              <div class="form-check form-group">
+                <input type="checkbox"
+                  class="form-check-input"
+                  formControlName="hasMilk"
+                  placeholder="Coffee Volume"/>
+                <label class="form-check-label">Milk</label>
+              </div>
+
+               <!-- errors.wrong-combination | value and type wrong combination -->
+              <div class="alert alert-danger"
+                *ngIf="orderForm.errors?.wrongMilkTypeCombination
+                   && (orderForm.touched || orderForm.dirty)">
+                Incorrect combination milk
+                with "{{orderForm.errors?.wrongMilkType }}"
+              </div>
             </div>
 
-            <!-- cap -->
-            <div class="form-check form-group">
-              <input type="checkbox"
-                class="form-check-input"
-                formControlName="hasCupCap"
-                placeholder="Coffee Volume"/>
-              <label class="form-check-label">Cup Cap</label>
-            </div>
+
+              <!-- cap -->
+              <div class="form-check form-group">
+                <input type="checkbox"
+                  class="form-check-input"
+                  formControlName="hasCupCap"
+                  placeholder="Coffee Volume"/>
+                <label class="form-check-label">Cup Cap</label>
+              </div>
 
           </div>
 
