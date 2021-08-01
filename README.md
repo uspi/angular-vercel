@@ -1,14 +1,24 @@
-![Angular Logo](https://github.com/vercel/vercel/blob/master/packages/frameworks/logos/angular.svg)
-
 # Coffee Shop
+Site form for choosing coffee and sending an order. 
 
-This directory is a brief example of an [Angular](https://angular.io/) app that can be deployed with Vercel and zero configuration.
+You can see a working example [here](https://none.pp.ua) or [here](https://angular-vercel-uspi.vercel.app/).
 
 ## Dependencies
 
 - Angular 11.2.6
 - Firebase Store
 
----
+## Form validation
 
-You can see a working example [here](https://none.pp.ua).
+Validation is used according to the rules:
+* Coffee
+    - Espresso,
+    - Latte,
+    - Americano
+* Volume
+    - 0.133 L
+    - 0.250 L
+    - 0.500 L - americano only
+    - Milk - optionally, americano only
+* Sugar - in teaspoons, optionally
+* Cup cap - optionally
